@@ -1,0 +1,16 @@
+
+if args.key?('custom')
+    custom = args['custom']
+
+    if custom.key?('source_dir')
+        vvv_dir = args['local_dir']
+        source_dir = File.expand_path(custom['source_dir'], vvv_dir)
+
+        if File.directory?(source_dir)
+            vm_source_dir = File.join('/srv/sources/', site)
+
+            # TODO: do not mount source_dir if it is a subdirectory of vvv_dir (it's not necessary)
+            config.vm.synced_folder source_dir, vm_source_dir, :mount_options => [ "dmode=775", "fmode=774" ]
+        end
+    end
+end
